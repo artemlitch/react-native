@@ -430,6 +430,19 @@ class PSPDFKitView extends React.Component {
       );
     }
   };
+  
+  /**
+   * TODO
+   */
+  extractTextFromMarkupAnnotation = function (annotation) {
+    if (Platform.OS === "ios") {
+      return NativeModules.PSPDFKitViewManager.extractTextFromMarkupAnnotation(
+        annotation,
+        findNodeHandle(this.refs.pdfView)
+      );
+    }
+  };
+  
   /**
    * Set the left bar button items for the specified view mode.
    * Note: The same button item cannot be added to both the left and right bar button items simultaneously.

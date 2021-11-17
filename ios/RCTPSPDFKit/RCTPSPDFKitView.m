@@ -293,6 +293,26 @@
   return success;
 }
 
+- (NSDictionary<NSString *, NSString *> *)extractTextFromMarkupAnnotationUUID:(id)annotationUUID error:(NSError *_Nullable *)error {
+    PSPDFDocument *document = self.pdfController.document;
+    VALIDATE_DOCUMENT(document, nil);
+
+    PSPDFAnnotation *markupAnnotation;
+    NSArray<PSPDFAnnotation *> *allAnnotations = [[document allAnnotationsOfType:PSPDFAnnotationTypeAll].allValues valueForKeyPath:@"@unionOfArrays.self"];
+    for (PSPDFAnnotation *annotation in allAnnotations) {
+      // Remove the annotation if the uuids match.
+      if ([annotation.uuid isEqualToString:annotationUUID]) {
+          markupAnnotation = annotation;
+        break;
+      }
+    }
+
+    NSArray <PSPDFGlyph *> *glyphs = [document objectsAtPDFRect:markupAnnotation.boundingBox pageIndex:markupAnnotation.pageIndex options:@{PSPDFObjectFinderOptionExtractGlyphs : @YES}][PSPDFObjectFinderTypeGlyphs];
+
+    NSString *extractedText = PSPDFStringFromGlyphs(glyphs) ?: @"";
+    return @{@"extractedTest" : extractedText};
+}
+
 #pragma mark - Forms
 
 - (NSDictionary<NSString *, id> *)getFormFieldValue:(NSString *)fullyQualifiedName {

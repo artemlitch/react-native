@@ -298,6 +298,21 @@ RCT_EXPORT_METHOD(setFormFieldValue:(nullable NSString *)value fullyQualifiedNam
   });
 }
 
+
+// Text Extraction
+//- (NSDictionary<NSString *, NSString *> *)extractTextFromMarkupAnnotationUUID:(id)annotationUUID error:(NSError *_Nullable *)error;
+RCT_EXPORT_METHOD(extractTextFromMarkupAnnotation:(id)jsonAnnotation reactTag:(nonnull NSNumber *)reactTag resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    RCTPSPDFKitView *component = (RCTPSPDFKitView *)[self.bridge.uiManager viewForReactTag:reactTag];
+      NSDictionary *extractedTextDictionary = [component extractTextFromMarkupAnnotationUUID:jsonAnnotation[@"uuid"] error:NULL];
+    if (extractedTextDictionary) {
+      resolve(extractedTextDictionary);
+    } else {
+      reject(@"error", @"Failed to extract text for markup annotation.", nil);
+    }
+  });
+}
+
 RCT_EXPORT_METHOD(setLeftBarButtonItems:(nullable NSArray *)items viewMode:(nullable NSString *)viewMode animated:(BOOL)animated reactTag:(nonnull NSNumber *)reactTag) {
   dispatch_async(dispatch_get_main_queue(), ^{
     RCTPSPDFKitView *component = (RCTPSPDFKitView *)[self.bridge.uiManager viewForReactTag:reactTag];

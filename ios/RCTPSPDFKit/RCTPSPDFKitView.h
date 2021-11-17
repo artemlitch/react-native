@@ -54,6 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary<NSString *, NSString *> *)getFormFieldValue:(NSString *)fullyQualifiedName;
 - (BOOL)setFormFieldValue:(NSString *)value fullyQualifiedName:(NSString *)fullyQualifiedName;
 
+// Text Extraction
+- (NSDictionary<NSString *, NSString *> *)extractTextFromMarkupAnnotationUUID:(id)annotationUUID error:(NSError *_Nullable *)error;
+
 // Toolbar buttons customizations
 - (void)setLeftBarButtonItems:(nullable NSArray <NSString *> *)items forViewMode:(nullable NSString *) viewMode animated:(BOOL)animated;
 - (void)setRightBarButtonItems:(nullable NSArray <NSString *> *)items forViewMode:(nullable NSString *) viewMode animated:(BOOL)animated;

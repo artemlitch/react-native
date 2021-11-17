@@ -335,6 +335,31 @@ class PSPDFKitViewComponent extends AutoHidingHeaderComponent {
           ]}
           style={{flex: 1, color: pspdfkitColor}}
         />
+      <View style={{marginLeft: 5}}>
+        <Button
+          onPress={async () => {
+            // Programmatically remove an existing ink annotation.
+            const highlightAnnotations = await this.refs.pdfView.getAnnotations(
+              0,
+              'pspdfkit/markup/highlight',
+            );
+            const firstHighlightAnnotation = highlightAnnotations['annotations'][0];
+            this.refs.pdfView
+              .extractTextFromMarkupAnnotation(firstHighlightAnnotation)
+              .then(result => {
+                if (result) {
+                  alert(JSON.stringify(result));
+                } else {
+                  alert('Failed to extract Markup Annotation Text.');
+                }
+              })
+              .catch(error => {
+                alert(JSON.stringify(error));
+              });
+          }}
+          title="Extract Markup Annotation Text"
+        />
+      </View>
       </View>
     );
   }
